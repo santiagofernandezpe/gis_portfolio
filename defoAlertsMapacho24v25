@@ -1,0 +1,123 @@
+/**
+ * Deforestation Alert Report — Mapacho Basin
+ * Author: Santiago Fernández Peña
+ * Method: ΔNDVI (Sentinel-2 L2A, 10m) | Threshold: < -0.25
+ * Baseline: 2024 | Analysis year: 2025
+ */
+
+var S2 = ee.ImageCollection("COPERNICUS/S2_SR_HARMONIZED"),
+    farmPolygons = ee.FeatureCollection("projects/end-to-end-gee-sfp/assets/Farm_Polygons"),
+    communitiesPolygons = ee.FeatureCollection("projects/end-to-end-gee-sfp/assets/Polygons_Communities"),
+    AOI = 
+    /* color: #95d699 */
+    /* shown: false */
+    /* displayProperties: [
+      {
+        "type": "rectangle"
+      }
+    ] */
+    ee.Geometry.Polygon(
+        [[[-72.06748198598748, -12.690621076432686],
+          [-72.06748198598748, -12.907566256343754],
+          [-71.88895415395623, -12.907566256343754],
+          [-71.88895415395623, -12.690621076432686]]], null, false);
+
+//Paleta de colores
+var dndvi_viz = {
+  min: -0.5,
+  max: 0.5,
+  palette: ['red','orange','yellow','white','lightgreen','green']
+};
+
+// Band selection
+var bands = ['B2','B3','B4','B8','B11','B12'];
+
+// Filter 2024
+var S2_2024 = S2
+  .filterDate('2024-01-01', '2024-12-31')
+  .filterBounds(communitiesPolygons)
+  .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20))
+  .select(bands)
+  .median()
+  .clip(communitiesPolygons);
+
+// Sentinel images for 2025
+var S2_2025 = S2
+  .filterDate('2025-01-01', '2025-12-31')
+  .filterBounds(farmPolygons)
+  .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 20))
+  .select(bands)
+  .median()
+  .clip(communitiesPolygons);
+  
+// Indices
+var NDVI_2024 = S2_2024
+  .normalizedDifference(['B8','B4'])
+  .rename('NDVI_2024');
+var NDVI_2025 = S2_2025
+  .normalizedDifference(['B8','B4'])
+  .rename('NDVI_2025');
+var dNDVI = NDVI_2025
+  .subtract(NDVI_2024)
+  .rename('dNDVI')
+  .clip(communitiesPolygons);
+
+// Validacion
+var veg2024 = NDVI_2024.gt(0.4);
+Map.addLayer(veg2024.selfMask(), {palette:'green'}, 'Vegetation 2024');
+var loss = dNDVI.lt(-0.25);  // umbral conservador
+Map.addLayer(loss.selfMask(), {palette:'red'}, 'Raw NDVI loss');
+var realLoss = loss.and(veg2024);
+
+Map.addLayer(
+  realLoss.selfMask(),
+  {palette:'darkred'},
+  'Validated vegetation loss'
+);
+
+var lossArea = realLoss
+  .multiply(ee.Image.pixelArea())
+  .reduceRegions({
+    collection: farmPolygons,
+    reducer: ee.Reducer.sum(),
+    scale: 10
+  });
+
+print(lossArea);
+
+Map.addLayer(
+  S2_2025,
+  {bands:['B4','B3','B2'], min:0, max:3000},
+  'RGB 2025'
+);
+
+Map.addLayer(dNDVI, dndvi_viz, 'NDVI Change 2025-2024');
+Map.addLayer(farmPolygons);
+Map.centerObject(AOI);
+
+// Final loss numbers
+var lossAreaByPoly = realLoss
+  .multiply(ee.Image.pixelArea())
+  .reduceRegions({
+    collection: farmPolygons,
+    reducer: ee.Reducer.sum(),
+    scale: 10
+  });
+
+print('Loss area by polygon (m2)', lossAreaByPoly);
+
+var totalLoss_m2 = realLoss
+  .multiply(ee.Image.pixelArea())
+  .reduceRegion({
+    reducer: ee.Reducer.sum(),
+    geometry: farmPolygons.geometry(),
+    scale: 10,
+    maxPixels: 1e13
+  });
+
+print('Total loss (m2)', totalLoss_m2);
+
+var totalLoss_ha = ee.Number(totalLoss_m2.get('dNDVI'))
+  .divide(10000);
+
+print('Total loss (ha)', totalLoss_ha);
