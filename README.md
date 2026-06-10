@@ -4,7 +4,7 @@
 
 Throughout my career I've worked on impact projects at the intersection of conservation, territorial governance, and community data — roles that demanded systems thinking as much as technical skill. That combination naturally pulled me toward MEL and, in parallel, toward GIS as a way to make complex spatial problems legible to the people living inside them.
 This repository holds two projects that reflect that path: Google Earth Engine scripts for deforestation alerts in the Mapacho Basin and fire scar vectorization in Patagonia. Small samples of a longer journey.
-
+----
 ## Project 1 - _Deforestation Alert Report — Mapacho Basin_
 Multitemporal vegetation loss analysis using Sentinel-2 L2A (10 m) in Google Earth Engine, developed as an environmental compliance input for Indigenous community territories. Computed an NDVI baseline for 2024 and detected significant vegetation decline in 2025 using a ΔNDVI threshold of −0.25, applied only where vegetation was confirmed in the baseline year — filtering out phenological noise and temporary agricultural changes. Loss was quantified per community polygon in m² and hectares, then verified visually with RGB Sentinel-2 composites. Total detected loss: 0.14 ha, concentrated in two sub-watersheds (San Miguel and Sol Naciente) where low NDVI corresponded to road construction rather than deforestation. Results indicated no evidence of widespread forest loss within the study area.
 
