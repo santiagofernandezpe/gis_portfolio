@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GIS Portfolio — Santiago Fernández Peña</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --bg:      #ffffff;
+      --bg2:     #f7f4ef;
+      --bg3:     #eee9e0;
+      --border:  #dfd7ca;
+      --accent:  #16a34a;
+      --gold:    #92650a;
+      --gold-lt: #fef3c7;
+      --text:    #1a1612;
+      --muted:   #6b5f4e;
+      --tag-bg:  #f0fdf4;
+      --tag-txt: #15803d;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; font-size: 15px; line-height: 1.6; }
+
+    /* NAV */
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,0.93); backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; height: 60px;
+    }
+    .nav-logo { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 0.95rem; color: var(--accent); letter-spacing: 0.03em; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.875rem; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+
+    /* HERO */
+    .hero { max-width: 960px; margin: 0 auto; padding: 5.5rem 2rem 3.5rem; }
+    .hero-pill {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: var(--tag-bg); color: var(--tag-txt);
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 0.3rem 0.85rem; border-radius: 100px; border: 1px solid #bbf7d0; margin-bottom: 1.4rem;
+    }
+    .hero-pill::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--accent); display:block; }
+    .hero h1 {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 700;
+      line-height: 1.07; letter-spacing: -0.03em; margin-bottom: 1.1rem;
+    }
+    .hero h1 em { color: var(--accent); font-style: normal; }
+    .hero-sub { font-size: 1rem; color: var(--muted); max-width: 580px; margin-bottom: 1.8rem; }
+    .badges { display: flex; gap: 0.45rem; flex-wrap: wrap; margin-bottom: 2rem; }
+    .badge {
+      display: inline-flex; align-items: center; gap: 0.35rem;
+      background: var(--bg2); border: 1px solid var(--border);
+      color: var(--muted); font-size: 0.7rem; font-weight: 600;
+      padding: 0.25rem 0.7rem; border-radius: 6px;
+    }
+    .badge.hot { background: #fff7ed; border-color: #fed7aa; color: #c2410c; }
+    .cta { display: flex; gap: 0.9rem; flex-wrap: wrap; }
+    .btn { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.6rem 1.3rem; border-radius: 8px; font-size: 0.875rem; font-weight: 600; text-decoration: none; transition: all 0.2s; border: none; cursor: pointer; }
+    .btn-green { background: var(--accent); color: #fff; }
+    .btn-green:hover { background: #15803d; }
+    .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
+    .btn-outline:hover { background: var(--bg2); border-color: var(--muted); }
+
+    /* TOOLS */
+    .tools-wrap { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: var(--bg2); padding: 1rem 2rem; }
+    .tools-inner { max-width: 960px; margin: 0 auto; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+    .tools-lbl { font-size: 0.66rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); white-space: nowrap; }
+    .ttag { background: var(--bg); color: var(--muted); font-size: 0.74rem; padding: 0.18rem 0.6rem; border-radius: 6px; border: 1px solid var(--border); font-weight: 500; }
+
+    /* SECTION */
+    .sec { max-width: 960px; margin: 0 auto; padding: 4rem 2rem; }
+    .sec-hdr { display: flex; align-items: baseline; gap: 1rem; margin-bottom: 2.5rem; }
+    .sec-hdr h2 { font-family: 'Space Grotesk', sans-serif; font-size: 1.4rem; font-weight: 700; letter-spacing: -0.02em; }
+    .sec-line { flex: 1; height: 1px; background: var(--border); }
+
+    /* STATS */
+    .stats { background: var(--bg2); border: 1px solid var(--border); border-radius: 14px; padding: 1.4rem 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 1.2rem; margin-bottom: 3rem; }
+    .stat { text-align: center; }
+    .stat-n { font-family: 'Space Grotesk', sans-serif; font-size: 1.9rem; font-weight: 700; color: var(--accent); line-height: 1; margin-bottom: 0.25rem; }
+    .stat-l { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+
+    /* PROJECT GRID */
+    .pgrid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+
+    /* BASE CARD */
+    .card {
+      background: var(--bg); border: 1px solid var(--border); border-radius: 16px;
+      overflow: hidden; transition: box-shadow 0.25s, transform 0.25s;
+    }
+    .card:hover { box-shadow: 0 6px 32px rgba(22,163,74,0.09); transform: translateY(-3px); }
+
+    /* IMAGE HEADER */
+    .card-img-wrap { position: relative; overflow: hidden; background: var(--bg3); }
+    .card-img-wrap img {
+      width: 100%; height: 260px; object-fit: cover; display: block;
+    }
+    .card-img-wrap .img-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.3) 100%);
+      pointer-events: none;
+    }
+    /* Placeholder when image is missing */
+    .img-placeholder {
+      width: 100%; height: 260px; background: var(--bg3);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--border); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase;
+    }
+
+    /* CARD BODY */
+    .card-body { padding: 1.6rem 2rem 1.8rem; }
+    .cmeta { display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.7rem; flex-wrap: wrap; }
+    .ctype { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+    .cdot { color: var(--border); }
+    .cyear { font-size: 0.74rem; color: var(--muted); }
+    .gh-pill {
+      margin-left: auto; font-size: 0.66rem; font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase; color: var(--gold); background: var(--gold-lt);
+      border: 1px solid #fde68a; padding: 0.16rem 0.55rem; border-radius: 5px;
+    }
+    .card-body h3 { font-family: 'Space Grotesk', sans-serif; font-size: 1.1rem; font-weight: 700; letter-spacing: -0.01em; margin-bottom: 0.55rem; line-height: 1.3; }
+    .card-body p { color: var(--muted); font-size: 0.875rem; margin-bottom: 1rem; line-height: 1.65; }
+    .card-body p:last-of-type { margin-bottom: 1rem; }
+    .tags { display: flex; gap: 0.3rem; flex-wrap: wrap; margin-bottom: 1rem; }
+    .tag { font-size: 0.67rem; padding: 0.16rem 0.52rem; border-radius: 5px; font-weight: 600; }
+    .tag-green { background: var(--tag-bg); color: var(--tag-txt); border: 1px solid #bbf7d0; }
+    .tag-amber { background: var(--gold-lt); color: var(--gold); border: 1px solid #fde68a; }
+    .tag-earth { background: #fdf8f0; color: #78563a; border: 1px solid #e8d5bc; }
+    .tag-fire  { background: #fff7ed; color: #c2410c; border: 1px solid #fed7aa; }
+    .actions { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .alink {
+      font-size: 0.77rem; padding: 0.36rem 0.85rem; border-radius: 7px;
+      text-decoration: none; font-weight: 600; transition: all 0.2s;
+      display: inline-flex; align-items: center; gap: 0.3rem;
+    }
+    .alink-green { background: var(--accent); color: #fff; }
+    .alink-green:hover { background: #15803d; }
+    .alink-gold { background: var(--gold-lt); color: var(--gold); border: 1px solid #fde68a; }
+    .alink-gold:hover { background: #fef9c3; }
+    .alink-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+    .alink-ghost:hover { border-color: var(--muted); color: var(--text); }
+
+    /* TWO-COL */
+    .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+
+    /* VIDEO EMBED */
+    .yt-wrap { position: relative; padding-bottom: 52%; background: #000; }
+    .yt-wrap iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
+
+    /* DASHBOARD EMBED */
+    .dash-section { border-top: 1px solid var(--border); }
+    .dash-label {
+      padding: 0.9rem 2rem; background: var(--bg2);
+      display: flex; align-items: center; gap: 0.6rem;
+    }
+    .dash-dot { width:8px; height:8px; border-radius:50%; background:#16a34a; flex-shrink:0; box-shadow:0 0 0 2px #dcfce7; }
+    .dash-label span { font-size: 0.75rem; font-weight: 600; color: var(--muted); }
+    .dash-label small { font-size: 0.7rem; color: var(--border); margin-left: auto; }
+    .dash-wrap iframe { width: 100%; height: 420px; border: none; display: block; }
+
+    /* LACCO PRODUCTS */
+    .products-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 1.2rem 0; }
+    .product-item {
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.1rem;
+    }
+    .product-item h4 { font-family: 'Space Grotesk', sans-serif; font-size: 0.82rem; font-weight: 700; color: var(--text); margin-bottom: 0.35rem; line-height: 1.3; }
+    .product-item p { font-size: 0.78rem; color: var(--muted); line-height: 1.5; margin-bottom: 0; }
+    .product-num { font-size: 0.65rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.3rem; }
+
+    /* ABOUT */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+    .about-text p { color: var(--muted); font-size: 0.875rem; margin-bottom: 0.9rem; }
+    .about-text p:last-of-type { margin-bottom: 0; }
+    .about-text strong { color: var(--text); }
+    .sk-hdr { font-family: 'Space Grotesk', sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.6rem; }
+    .sk-list { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-bottom: 1.2rem; }
+    .chip { background: var(--bg2); border: 1px solid var(--border); color: var(--text); font-size: 0.75rem; padding: 0.22rem 0.6rem; border-radius: 7px; font-weight: 500; }
+    .chip-gold { background: var(--gold-lt); border-color: #fde68a; color: var(--gold); }
+
+    footer { border-top: 1px solid var(--border); background: var(--bg2); text-align: center; padding: 2rem; color: var(--muted); font-size: 0.77rem; }
+    footer a { color: var(--accent); text-decoration: none; }
+
+    @media(max-width:720px){
+      .two-col, .about-grid, .products-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-logo">SFP · GIS</span>
+  <ul class="nav-links">
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="mailto:santiagofernandezpe@gmail.com">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <span class="hero-pill">GIS Portfolio</span>
+  <h1>Santiago<br/><em>Fernández Peña</em></h1>
+  <p class="hero-sub">Programme manager and geospatial analyst at the intersection of territorial governance, conservation, and spatial data. Seven years building GIS systems for Indigenous communities, NGOs, and conservation finance across Latin America.</p>
+  <div class="badges">
+    <span class="badge">📍 The Hague, Netherlands</span>
+    <span class="badge hot">🔥 HOT OpenStreetMap Mentee</span>
+    <span class="badge">🎓 M.A. Sustainable Environmental Management</span>
+    <span class="badge">🌎 ES · EN · FR</span>
+  </div>
+  <div class="cta">
+    <a class="btn btn-green" href="#projects">View Projects</a>
+    <a class="btn btn-outline" href="mailto:santiagofernandezpe@gmail.com">Get in touch</a>
+  </div>
+</div>
+
+<!-- TOOLS -->
+<div class="tools-wrap">
+  <div class="tools-inner">
+    <span class="tools-lbl">Tools</span>
+    <span class="ttag">ArcGIS Pro</span>
+    <span class="ttag">QGIS</span>
+    <span class="ttag">Google Earth Engine</span>
+    <span class="ttag">ArcGIS Online</span>
+    <span class="ttag">Field Maps</span>
+    <span class="ttag">DroneDeploy</span>
+    <span class="ttag">Experience Builder</span>
+    <span class="ttag">SQL</span>
+    <span class="ttag">Arcade / JS</span>
+    <span class="ttag">Survey123</span>
+    <span class="ttag">Sentinel-2</span>
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<section class="sec" id="projects">
+  <div class="sec-hdr"><h2>Projects</h2><div class="sec-line"></div></div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-n">250+</div><div class="stat-l">Indigenous Households</div></div>
+    <div class="stat"><div class="stat-n">3</div><div class="stat-l">Countries</div></div>
+    <div class="stat"><div class="stat-n">7+</div><div class="stat-l">Years Experience</div></div>
+    <div class="stat"><div class="stat-n">5+</div><div class="stat-l">Concurrent Workstreams</div></div>
+  </div>
+
+  <div class="pgrid">
+
+    <!-- ── GEE DEFORESTATION ALERTS ── -->
+    <div class="card">
+      <div class="card-img-wrap">
+        <img src="images/deforestation-alert-mapacho.jpg"
+             alt="Deforestation alert map — Mapacho Basin NDVI change detection"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='none'; this.parentElement.innerHTML='<div class=\'img-placeholder\'>Add image: images/deforestation-alert-mapacho.jpg</div>'"/>
+        <div class="img-overlay"></div>
+      </div>
+      <div class="card-body">
+        <div class="cmeta">
+          <span class="ctype">Remote Sensing · GEE</span><span class="cdot">·</span><span class="cyear">2025</span>
+          <span class="gh-pill">⌥ Code on GitHub</span>
+        </div>
+        <h3>Deforestation Alert Report — Mapacho Basin</h3>
+        <p>Multitemporal vegetation loss analysis using Sentinel-2 L2A (10 m) in Google Earth Engine, developed as an environmental compliance input for Indigenous community territories. Computed an NDVI baseline for 2024 and detected significant vegetation decline in 2025 using a ΔNDVI threshold of −0.25, applied only where vegetation was confirmed in the baseline year — filtering out phenological noise and temporary agricultural changes. Loss was quantified per community polygon in m² and hectares, then verified visually with RGB Sentinel-2 composites. Total detected loss: 0.14 ha, concentrated in two sub-watersheds (San Miguel and Sol Naciente) where low NDVI corresponded to road construction rather than deforestation. Results indicated no evidence of widespread forest loss within the study area.</p>
+        <div class="tags">
+          <span class="tag tag-green">Google Earth Engine</span>
+          <span class="tag tag-green">Sentinel-2 L2A</span>
+          <span class="tag tag-amber">NDVI Change Detection</span>
+          <span class="tag tag-amber">Multitemporal</span>
+          <span class="tag tag-earth">IPLCs · Peru</span>
+        </div>
+        <div class="actions">
+          <a class="alink alink-gold" href="https://github.com/santiagofernandezpe/gis-portfolio" target="_blank">⌥ View Code on GitHub ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── FIRE SCAR ── -->
+    <div class="card">
+      <div class="card-img-wrap">
+        <img src="images/fire-scar-patagonia.jpg"
+             alt="Wildfire burn severity map — North Patagonian forests dNBR classification"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='none'; this.parentElement.innerHTML='<div class=\'img-placeholder\'>Add image: images/fire-scar-patagonia.jpg</div>'"/>
+        <div class="img-overlay"></div>
+      </div>
+      <div class="card-body">
+        <div class="cmeta">
+          <span class="ctype">Remote Sensing · Machine Learning · GEE</span><span class="cdot">·</span><span class="cyear">2025 – 2026</span>
+          <span class="gh-pill">⌥ Code on GitHub</span>
+        </div>
+        <h3>Wildfire Burn Severity Assessment — North Patagonian Forests (2022 & 2025)</h3>
+        <p>Spatial and temporal analysis of two wildfire events in the Bariloche Department, Río Negro, using Sentinel-2 imagery and Google Earth Engine. The Bariloche area has lost an estimated 20,000 ha of forest over the past five years, yet precise open data on burn extent and severity remains scarce — limiting both scientific analysis and community-based monitoring.</p>
+        <p>The methodology centres on the differenced Normalized Burn Ratio (dNBR), computed from pre- and post-fire Sentinel-2 composites against a 2021 baseline, to classify burn severity across the Lakes Martín, Steffen, and Los Manzanos area. Results show the 2025 event produced higher overall severity than 2022, with the most intense patches concentrated along the El Manso river valley — where terrain channelled fire spread. Spatial overlap between both fire scars identifies zones of repeated disturbance. Burn areas were vectorised using a Random Forest classifier trained on field-collected reference points and validated with a confusion matrix (Kappa). All outputs are published as an interactive, open-access GEE web app.</p>
+        <div class="tags">
+          <span class="tag tag-green">Google Earth Engine</span>
+          <span class="tag tag-fire">dNBR · Burn Severity</span>
+          <span class="tag tag-fire">Random Forest</span>
+          <span class="tag tag-amber">Vectorization</span>
+          <span class="tag tag-earth">Patagonia · Argentina</span>
+        </div>
+        <div class="actions">
+          <a class="alink alink-green" href="https://santiagofernandezpena.users.earthengine.app/view/severidadsteffenymartin" target="_blank">Open Interactive Map ↗</a>
+          <a class="alink alink-gold" href="https://github.com/santiagofernandezpe/gis-portfolio" target="_blank">⌥ Code on GitHub ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── LACCO VALLEY ── -->
+    <div class="card">
+      <!-- Hero: YouTube embed (Survey Dashboard product) -->
+      <div class="yt-wrap">
+        <iframe src="https://www.youtube.com/embed/4CcRmGQZW-8"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen title="Lacco Valley — Survey Data Collection Dashboard"></iframe>
+      </div>
+      <div class="card-body">
+        <div class="cmeta">
+          <span class="ctype">Dashboard · Field Mapping · Data Pipeline</span><span class="cdot">·</span><span class="cyear">2022 – 2024</span>
+        </div>
+        <h3>Lacco Valley Initiative — Coffee Traceability & Agricultural Monitoring</h3>
+        <p>End-to-end GIS and data solution for a coffee cooperative operating in the Manu Biosphere Reserve. The project spanned three integrated workstreams — field data collection, client-facing traceability, and backend pipeline optimisation — connecting indigenous coffee farmers, field technicians, and end buyers within a single spatial data ecosystem.</p>
+
+        <!-- 3 products -->
+        <div class="products-grid">
+          <div class="product-item">
+            <div class="product-num">Product 01</div>
+            <h4>Survey Data Collection & Agricultural Dashboard</h4>
+            <p>Designed Survey123 forms to capture agricultural practices, labour dynamics, and cultural land-use data from 250+ indigenous coffee farming households. Data fed into an operational monitoring dashboard for programme staff.</p>
+          </div>
+          <div class="product-item">
+            <div class="product-num">Product 02</div>
+            <h4>Client Traceability Dashboard</h4>
+            <p>Built an interactive ArcGIS Dashboard connecting buyers directly with origin farms, surfacing georeferenced farm polygons, producer profiles, and harvest data to support direct trade and supply chain transparency.</p>
+          </div>
+          <div class="product-item">
+            <div class="product-num">Product 03</div>
+            <h4>Survey Optimisation — Arcade & Backend Pipeline</h4>
+            <p>Implemented Arcade expression rules within Survey123 for dynamic field logic, conditional validation, and automated calculations — reducing data entry errors and adapting form behaviour to real field conditions. Restructured the data pipeline to improve flow consistency from collection tools to the dashboard, cutting processing friction and improving dataset reliability for downstream analysis.</p>
+          </div>
+        </div>
+
+        <div class="tags">
+          <span class="tag tag-green">ArcGIS Dashboards</span>
+          <span class="tag tag-green">Survey123</span>
+          <span class="tag tag-green">Field Maps</span>
+          <span class="tag tag-green">Arcade</span>
+          <span class="tag tag-amber">Data Pipeline</span>
+          <span class="tag tag-amber">Coffee Traceability</span>
+          <span class="tag tag-earth">Manu Biosphere · Peru</span>
+        </div>
+        <div class="actions">
+          <a class="alink alink-green" href="https://aasd.maps.arcgis.com/apps/dashboards/28a5dedccaaf4178867d14c320a2696e" target="_blank">Open Live Dashboard ↗</a>
+        </div>
+      </div>
+
+      <!-- Live dashboard embed -->
+      <div class="dash-section">
+        <div class="dash-label">
+          <span class="dash-dot"></span>
+          <span>Live dashboard preview</span>
+          <small>ArcGIS Online</small>
+        </div>
+        <div class="dash-wrap">
+          <iframe src="https://aasd.maps.arcgis.com/apps/dashboards/28a5dedccaaf4178867d14c320a2696e"
+                  title="Lacco Valley Traceability Dashboard" loading="lazy"></iframe>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CAMPESINA FORESTAL + QQUENCCO ── -->
+    <div class="two-col">
+
+      <!-- Campesina -->
+      <div class="card">
+        <div class="card-img-wrap">
+          <img src="images/campesina-forestal.jpg"
+               alt="Campesina Forestal — community territorial mapping, Andean Peru"
+               onerror="this.style.display='none'; this.nextElementSibling.style.display='none'; this.parentElement.innerHTML='<div class=\'img-placeholder\'>Add image: images/campesina-forestal.jpg</div>'"/>
+          <div class="img-overlay"></div>
+        </div>
+        <div class="card-body">
+          <div class="cmeta">
+            <span class="ctype">Community Mapping</span><span class="cdot">·</span><span class="cyear">2024–2025</span>
+          </div>
+          <h3>Territorial Planning — Campesina Forestal</h3>
+          <p>Field data collection, spatial database management, and participatory <em>ordenamiento territorial</em> workshops with Indigenous Andean Highland communities. Drone mapping for orthophotos; web maps as governance outputs.</p>
+          <div class="tags">
+            <span class="tag tag-green">QGIS</span>
+            <span class="tag tag-green">Drone Mapping</span>
+            <span class="tag tag-amber">Participatory GIS</span>
+            <span class="tag tag-earth">IPLCs · Andes · Peru</span>
+          </div>
+          <div class="actions"><span class="alink alink-ghost" style="cursor:default;">🔒 Internal project</span></div>
+        </div>
+      </div>
+
+      <!-- Qquencco -->
+      <div class="card">
+        <div class="card-img-wrap">
+          <img src="images/qquencco-orthophoto.jpg"
+               alt="Qquencco drone orthophoto — community boundary, Calca, Cusco"
+               onerror="this.style.display='none'; this.nextElementSibling.style.display='none'; this.parentElement.innerHTML='<div class=\'img-placeholder\'>Add image: images/qquencco-orthophoto.jpg</div>'"/>
+          <div class="img-overlay"></div>
+        </div>
+        <div class="card-body">
+          <div class="cmeta">
+            <span class="ctype">Drone Mapping</span><span class="cdot">·</span><span class="cyear">2023</span>
+          </div>
+          <h3>Qquencco — Orthophoto & Community Boundary</h3>
+          <p>Drone orthophoto production for the Indigenous community of Qquencco (Calca, Cusco). Planned flights in DroneDeploy, set GPS ground control points, digitised community boundaries absent from public geodatabases. Map printed for fieldwork.</p>
+          <div class="tags">
+            <span class="tag tag-green">DroneDeploy</span>
+            <span class="tag tag-green">ArcGIS Pro</span>
+            <span class="tag tag-earth">Cusco · Peru</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── ELEVATION PROFILES + PROTECTED AREAS ── -->
+    <div class="two-col">
+
+      <div class="card">
+        <div class="card-img-wrap">
+          <img src="images/elevation-profiles-lacco.jpg"
+               alt="Elevation profiles for irrigation line design — Lacco Valley"
+               onerror="this.style.display='none'; this.nextElementSibling.style.display='none'; this.parentElement.innerHTML='<div class=\'img-placeholder\'>Add image: images/elevation-profiles-lacco.jpg</div>'"/>
+          <div class="img-overlay"></div>
+        </div>
+        <div class="card-body">
+          <div class="cmeta">
+            <span class="ctype">Terrain Analysis · DEM</span><span class="cdot">·</span><span class="cyear">2023</span>
+          </div>
+          <h3>Elevation Profiles — Lacco Irrigation Design</h3>
+          <p>Terrain analysis using Digital Elevation Models (DEMs) to generate elevation profiles along primary irrigation lines. Identified optimal pressure breaker locations based on slope and head pressure calculations to ensure hydraulic efficiency and protect infrastructure longevity across the Lacco Valley network.</p>
+          <div class="tags">
+            <span class="tag tag-green">ArcGIS Pro</span>
+            <span class="tag tag-amber">DEM Analysis</span>
+            <span class="tag tag-amber">Terrain Profiling</span>
+            <span class="tag tag-earth">Peru</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-img-wrap">
+          <img src="images/protected-areas-patagonia.jpg"
+               alt="Protected areas and fossil fuel overlap analysis — Neuquén, Argentina"
+               onerror="this.style.display='none'; this.nextElementSibling.style.display='none'; this.parentElement.innerHTML='<div class=\'img-placeholder\'>Add image: images/protected-areas-patagonia.jpg</div>'"/>
+          <div class="img-overlay"></div>
+        </div>
+        <div class="card-body">
+          <div class="cmeta">
+            <span class="ctype">Spatial Analysis</span><span class="cdot">·</span><span class="cyear">Academic</span>
+          </div>
+          <h3>Protected Areas & Fossil Fuel Overlap — Patagonia</h3>
+          <p>Overlay analysis quantifying the intersection of protected areas with hydrocarbon basins in Neuquén. Found 19,000+ km² of protected land within extraction basins and 151 active wells inside provincial protected areas (TOTAL AUSTRAL & YPF).</p>
+          <div class="tags">
+            <span class="tag tag-green">ArcGIS Pro</span>
+            <span class="tag tag-amber">Overlay Analysis</span>
+            <span class="tag tag-earth">Neuquén · Argentina</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div><!-- /pgrid -->
+</section>
+
+<!-- ABOUT -->
+<section class="sec" id="about">
+  <div class="sec-hdr"><h2>About</h2><div class="sec-line"></div></div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>I'm a <strong>programme manager and geospatial analyst</strong> based in The Hague, Netherlands, with seven years of field and analytical experience across Peru and Argentina. I use GIS as both a technical tool and a communication bridge — turning complex spatial data into maps that Indigenous communities, funders, and field teams can act on.</p>
+      <p>My work spans community territorial governance, coffee supply chain traceability, remote sensing for conservation finance, and urban environmental assessment. I'm the founder of <strong>Lenga Land Lab</strong>, where I provide M&E and geospatial services to conservation-sector clients.</p>
+      <p>I was a mentee of the <strong>Humanitarian OpenStreetMap Team (HOT)</strong> and hold certifications in QGIS, ArcGIS, DroneDeploy, and Google Earth Engine (private instructor). B.A. International Relations · M.A. Sustainable Environmental Management.</p>
+      <div style="margin-top:1.5rem;display:flex;gap:0.75rem;flex-wrap:wrap;">
+        <a class="btn btn-green" href="mailto:santiagofernandezpe@gmail.com">santiagofernandezpe@gmail.com</a>
+        <a class="btn btn-outline" href="https://lenga.lat" target="_blank">lenga.lat ↗</a>
+      </div>
+    </div>
+    <div>
+      <p class="sk-hdr">GIS & Remote Sensing</p>
+      <div class="sk-list">
+        <span class="chip">ArcGIS Pro</span><span class="chip">ArcGIS Online</span><span class="chip">QGIS</span>
+        <span class="chip">Google Earth Engine</span><span class="chip">DroneDeploy</span>
+        <span class="chip">Field Maps</span><span class="chip">Survey123</span><span class="chip">Experience Builder</span>
+      </div>
+      <p class="sk-hdr">Data & Programming</p>
+      <div class="sk-list">
+        <span class="chip">Arcade / JS</span><span class="chip">SQL</span><span class="chip">Python</span>
+        <span class="chip">Sentinel-2</span><span class="chip">NDVI · dNBR · ML Classification</span>
+      </div>
+      <p class="sk-hdr">Courses & Certifications</p>
+      <div class="sk-list">
+        <span class="chip chip-gold">QGIS (certified)</span>
+        <span class="chip chip-gold">ArcGIS (certified)</span>
+        <span class="chip chip-gold">DroneDeploy (certified)</span>
+        <span class="chip chip-gold">GEE — private instructor</span>
+        <span class="chip chip-gold">HOT OpenStreetMap mentee</span>
+      </div>
+      <p class="sk-hdr">Domains</p>
+      <div class="sk-list">
+        <span class="chip">Territorial Governance</span><span class="chip">IPLC Mapping</span>
+        <span class="chip">Land Use / Cover Change</span><span class="chip">Conservation Finance</span>
+        <span class="chip">M&E Frameworks</span><span class="chip">Traceability Systems</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>Santiago Fernández Peña · <a href="mailto:santiagofernandezpe@gmail.com">santiagofernandezpe@gmail.com</a> · The Hague, Netherlands · <a href="https://lenga.lat" target="_blank">lenga.lat</a></p>
+  <p style="margin-top:0.3rem;font-size:0.68rem;color:#c9bfb2;">GIS Portfolio · 2026</p>
+</footer>
+
+</body>
+</html>
